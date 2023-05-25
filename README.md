@@ -123,3 +123,8 @@ module.exports = {
   },
 };
 ```
+
+处理less
+npm install less less-loader --save-dev
+
+打包后生成 ![style.png](./public/img/style.png)
