@@ -2,42 +2,50 @@
 
 
 资料:
-https://pan.baidu.com/s/114lJRGua2uHBdLq_iVLOOQ 提取码：yyds
+https://yk2012.github.io/sgg_webpack5/base/#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7
 
-视频链接:
+视频:
 https://www.bilibili.com/video/BV14T4y1z7sw/?p=3&spm_id_from=pageDriver&vd_source=14fedc3c63ed079cd9eb76b1b47d1f84
 
 
+# 一 基础知识
+## 1. 为什么需要打包工具？
+开发时，我们会使用框架（React、Vue），ES6 模块化语法，Less/Sass 等 css 预处理器等语法进行开发。
 
-1. 为什么需要打包工具:
-react, vue, es6, less/sass
-压缩代码, 做兼容处理, 提升性能.
+这样的代码要想在浏览器运行必须经过编译成浏览器能识别的 JS、Css 等语法，才能运行。
 
-2. 基础使用 / 测试
-如果直接访问, 报如下错误.
-浏览器不识别es6 模块化 语言
-**webpack开发环境下,仅能编译es6 模块化语法, 不能编译箭头函数, es6语法等.**
+所以我们需要打包工具帮我们做完这些事。
+
+除此之外，打包工具还能**压缩代码**、做**兼容性处理**、**提升代码性能**等。
+
+
+## 2. 基础使用 / 测试
+Webpack 是一个静态资源打包工具。
+
+**开发模式**：仅能编译 JS 中的 ES Module(import, export) 语法, 不能编译箭头函数, es6语法等
+
+**生产模式**：能编译 JS 中的 ES Module 语法，还能压缩 JS 代码
+
+如果直接访问页面html,不打包, 报如下错误:
 ```
 Uncaught SyntaxError: Cannot use import statement outside a module (at main.js:1:1)
 ```
-
  ![Uncaught SyntaxError.png](./public/img/Uncaught%20SyntaxError.png)
 
 
-第二部分: 基本使用
-使用webpack技术来解决上述问题
+# 二 基本使用
+可以使用webpack技术来解决上述问题
 
+1. 初始化 package.json
+```npm init -y ```
+注意: "name": "webpack_code" 名称不能为webpack,否则因同名 下面的webpack包会下载失败.
 
-(1) 初始化package.json
-npm init -y 
-注意: "name": "webpack_code" 名称不能为webpack,如果是下面的webpack包会下载失败.
+2. 安装2个包: webpack webpack-cli(webpack 指令)
+npm i webpack webpack-cli -D
 
-(2) 安装2个, webpack webpack-cli(webpack 指令)
-下载到开发依赖中 -D
-pm i webpack webpack-cli -D
-
-(3) 打包测试
-npx webpack ./src/main.js --mode=development
+3. 打包测试 (npx)
+```npx webpack ./src/main.js --mode=development```
+npx + webpack 包 + 入口文件 + 打包环境
 生成dist文件, 里面的main.js 相对庞大. (106行)
 ```
 dxm@bogon webpack_code % npx webpack ./src/main.js --mode=development
@@ -51,7 +59,7 @@ webpack 5.84.0 compiled successfully in 732 ms
 dxm@bogon webpack_code %
 ```
  
-npx webpack ./src/main.js --mode=production
+```npx webpack ./src/main.js --mode=production```
 生成dist文件, 里面的main.js被压缩. (1行)
 ```
 dxm@bogon webpack_code % npx webpack ./src/main.js --mode=production 
@@ -62,24 +70,38 @@ webpack 5.84.0 compiled successfully in 840 ms
 dxm@bogon webpack_code % 
 ```
 
-npx说明: npx 会将node_modules/.bin 临时添加为环境变量, 这样可以访问环境变量中的应用程序.
+4. 小结: 
+* **npx说明: npx 会将 node_modules/.bin 临时添加为环境变量, 这样可以访问环境变量中的应用程序.**
+* Webpack 本身功能比较少，只能处理 js 资源，一旦遇到 css 等其他资源就会报错。
+* 主要学习如何处理其他资源
 
-小结: todo
 
 
+# 三 基本配置
+五大核心
 
-第三部分: 基本配置
-5大核心概念
 entry 入口
 output 输出
 loader 加载器, webpack 本身只能处理js, josn等资源, 其他资源需要借助loader
 plugins
 mode (dev, prod)
 
+* entry（入口）指示 Webpack 从哪个文件开始打包
+
+* output（输出）指示 Webpack 打包完的文件输出到哪里去，如何命名等
+
+* loader（加载器）webpack 本身只能处理 js、json 等资源，其他资源需要借助 loader，Webpack 才能解析
+
+* plugins（插件）扩展 Webpack 的功能
+
+* mode（模式）
+开发模式：development
+生产模式：production
 
 
-第四部分: 基本配置文件
-执行 npx webpack, 和上面执行```npx webpack ./src/main.js --mode=development```一样
+# 四 基本配置文件
+编写**webpack.config.js**文件
+执行 ```npx webpack```, 和上面执行```npx webpack ./src/main.js --mode=development```一样
 ```
 const path = require("path"); //nodejs 核心模板, 专门用来处理路径问题
 
@@ -107,7 +129,7 @@ module.exports = {
 }
 ```
 
-第四部分:  css
+# 五 处理css
 ### 处理css资源
 npm install css-loader style-loader -D
 
@@ -119,4 +141,6 @@ npm install sass-loader sass --save-dev
 
 ### 处理stylus资源
 npm install stylus stylus-loader --save-dev
+
 打包后生成 ![style.png](./public/img/style.png)
+
