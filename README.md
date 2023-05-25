@@ -106,3 +106,20 @@ module.exports = {
     mode: "development",
 }
 ```
+
+第四部分:  处理css资源
+npm install css-loader -D
+npm install style-loader -D
+
+```
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
+};
+```
