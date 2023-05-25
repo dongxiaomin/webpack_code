@@ -16,7 +16,7 @@ react, vue, es6, less/sass
 2. 基础使用 / 测试
 如果直接访问, 报如下错误.
 浏览器不识别es6 模块化 语言
-webpack开发环境下,仅能编译es6 模块化语法, 不能编译箭头函数, es6语法等.
+**webpack开发环境下,仅能编译es6 模块化语法, 不能编译箭头函数, es6语法等.**
 ```
 Uncaught SyntaxError: Cannot use import statement outside a module (at main.js:1:1)
 ```
@@ -24,7 +24,7 @@ Uncaught SyntaxError: Cannot use import statement outside a module (at main.js:1
  ![Uncaught SyntaxError.png](./public/img/Uncaught%20SyntaxError.png)
 
 
-第二部分:
+第二部分: 基本使用
 使用webpack技术来解决上述问题
 
 
@@ -60,4 +60,49 @@ orphan modules 283 bytes [orphan] 2 modules
 ./src/main.js + 2 modules 399 bytes [built] [code generated]
 webpack 5.84.0 compiled successfully in 840 ms
 dxm@bogon webpack_code % 
+```
+
+npx说明: npx 会将node_modules/.bin 临时添加为环境变量, 这样可以访问环境变量中的应用程序.
+
+小结: todo
+
+
+
+第三部分: 基本配置
+5大核心概念
+entry 入口
+output 输出
+loader 加载器, webpack 本身只能处理js, josn等资源, 其他资源需要借助loader
+plugins
+mode (dev, prod)
+
+
+
+第四部分: 基本配置文件
+执行 npx webpack, 和上面执行```npx webpack ./src/main.js --mode=development```一样
+```
+const path = require("path"); //nodejs 核心模板, 专门用来处理路径问题
+
+module.exports = {
+    // 入口
+    entry: './src/main.js', // 相对路径
+    // 输出
+    output: {
+        // __dirname nodejs的变量, 代表当前文件夹目录
+        path: path.resolve(__dirname, "dist"), // 绝对目录
+        filename: 'main.js'
+    },
+    // 加载器
+    module: {
+        rules: [
+            // loader 的配置
+        ]
+    },
+    // 插件
+    plugins: [
+        // plugin的配置
+    ],
+    // 模式
+    mode: "development",
+}
 ```
