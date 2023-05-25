@@ -107,24 +107,16 @@ module.exports = {
 }
 ```
 
-第四部分:  处理css资源
-npm install css-loader -D
-npm install style-loader -D
+第四部分:  css
+### 处理css资源
+npm install css-loader style-loader -D
 
-```
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-    ],
-  },
-};
-```
-
-处理less
+### 处理less资源
 npm install less less-loader --save-dev
 
+### 处理sass资源
+npm install sass-loader sass --save-dev
+
+### 处理stylus资源
+npm install stylus stylus-loader --save-dev
 打包后生成 ![style.png](./public/img/style.png)
