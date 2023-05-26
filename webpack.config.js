@@ -45,6 +45,18 @@ module.exports = {
                   'stylus-loader', // 将 stylus 编译成 CSS
                 ],
             },
+            {
+                test: /\.(png|jpe?g|gif|svg|webp)/,
+                type: 'asset',
+               parser: {
+                 dataUrlCondition: {
+                    // 小于10kb的图片转base64
+                    // 优点: 减少请求数量
+                    // 缺点: 体积会更大
+                   maxSize: 10 * 1024 // 10kb
+                 }
+               }
+            }
         ]
     },
     // 插件

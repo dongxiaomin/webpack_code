@@ -79,13 +79,6 @@ dxm@bogon webpack_code %
 
 # 三 基本配置
 五大核心
-
-entry 入口
-output 输出
-loader 加载器, webpack 本身只能处理js, josn等资源, 其他资源需要借助loader
-plugins
-mode (dev, prod)
-
 * entry（入口）指示 Webpack 从哪个文件开始打包
 
 * output（输出）指示 Webpack 打包完的文件输出到哪里去，如何命名等
@@ -142,5 +135,27 @@ npm install sass-loader sass --save-dev
 ### 处理stylus资源
 npm install stylus stylus-loader --save-dev
 
-打包后生成 ![style.png](./public/img/style.png)
+页面测试![style.png](./public/img/style.png)
 
+
+# 六 处理 image
+注意: 重复打包不会覆盖旧的, 需要删除旧的
+图片
+小于10kb 转为base 64 字符串
+减少图片请求数量, 也就是减轻服务器压力.
+缺点: 体积变大
+
+```
+{
+    test: /\.(png|jpe?g|gif|svg|webp)/,
+    type: 'asset',
+    parser: {
+        dataUrlCondition: {
+        // 小于10kb的图片转base64
+        // 优点: 减少请求数量
+        // 缺点: 体积会更大
+        maxSize: 10 * 1024 // 10kb
+        }
+    }
+}
+```
