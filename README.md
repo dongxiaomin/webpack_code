@@ -298,7 +298,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 会原封不动地输出到dist文件中, 包括样式
 ```
-template: path.resolve(__dirname, "public/index.html")
-```
+new HtmlWebpackPlugin({
+    // 模板: 以public/index.html创建新的html文件
+    // 新的html文件特点: 1. 结构和原来一致, 2. 自动引入打包输出的资源
+    template: path.resolve(__dirname, "public/index.html")
+})
+        ```
 此时 dist 目录就会输出一个 dist/index.html 
 
