@@ -7,7 +7,10 @@ module.exports = {
     output: {
         // __dirname nodejs的变量, 代表当前文件夹目录
         path: path.resolve(__dirname, "dist"), // 绝对目录
-        filename: 'main.js'
+        // 入口文件打包输出文件名
+        filename: 'static/js/main.js',
+        // 自动清空上次打包内容
+        clean: true
     },
     // 加载器
     module: {
@@ -23,39 +26,52 @@ module.exports = {
             {
                 test: /\.less$/,
                 use: [
-                  // compiles Less to CSS
-                  'style-loader',
-                  'css-loader',
-                  'less-loader', // 将less编译成css
+                    // compiles Less to CSS
+                    'style-loader',
+                    'css-loader',
+                    'less-loader', // 将less编译成css
                 ],
             },
             {
                 test: /\.s[ac]ss$/i,
                 use: [
-                  'style-loader', // 将 JS 字符串生成为 style 节点
-                  'css-loader', // 将 CSS 转化成 CommonJS 模块
-                  'sass-loader', // 将 Sass 编译成 CSS
+                    'style-loader', // 将 JS 字符串生成为 style 节点
+                    'css-loader', // 将 CSS 转化成 CommonJS 模块
+                    'sass-loader', // 将 Sass 编译成 CSS
                 ],
             },
             {
                 test: /\.styl$/,
                 use: [
-                  'style-loader', // 将 JS 字符串生成为 style 节点
-                  'css-loader', // 将 CSS 转化成 CommonJS 模块
-                  'stylus-loader', // 将 stylus 编译成 CSS
+                    'style-loader', // 将 JS 字符串生成为 style 节点
+                    'css-loader', // 将 CSS 转化成 CommonJS 模块
+                    'stylus-loader', // 将 stylus 编译成 CSS
                 ],
             },
             {
                 test: /\.(png|jpe?g|gif|svg|webp)/,
                 type: 'asset',
-               parser: {
-                 dataUrlCondition: {
-                    // 小于10kb的图片转base64
-                    // 优点: 减少请求数量
-                    // 缺点: 体积会更大
-                   maxSize: 10 * 1024 // 10kb
-                 }
-               }
+                parser: {
+                    dataUrlCondition: {
+                        // 小于10kb的图片转base64
+                        // 优点: 减少请求数量
+                        // 缺点: 体积会更大
+                        maxSize: 10 * 1024 // 10kb
+                    }
+                },
+                generator: {
+                    // 输出图片名称
+                    // [hash:10] hash值取前10位
+                    filename: 'static/images/[hash:10][ext][query]'
+                }
+            },
+            {
+                test: /\.(ttf|woff2?)/,
+                type: 'asset/resource',
+                generator: {
+                    // 输出名称
+                    filename: 'static/media/[hash:10][ext][query]'
+                }
             }
         ]
     },

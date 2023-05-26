@@ -159,3 +159,35 @@ npm install stylus stylus-loader --save-dev
     }
 }
 ```
+
+# 七 修改输出文件目录
+```
+generator: {
+    // 输出图片名称
+    // [hash:10] hash值取前10位
+    filename: 'static/images/[hash:10][ext][query]'
+}
+```
+```
+output: {
+    ...
+    // 入口文件打包输出文件名
+    filename: 'static/js/main.js'
+},
+```
+
+# 八 自动清空上次打包内容
+原理: 在打包前,将output path 整个目录内容清空, 再进行打包
+```clean: true```
+
+# 九 处理字体图标资源
+```
+{
+    test: /\.(ttf|woff2?)/,
+    type: 'asset/resource',
+    generator: {
+        // 输出名称
+        filename: 'static/media/[hash:10][ext][query]'
+    }
+}
+```
