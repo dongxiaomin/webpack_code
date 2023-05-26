@@ -233,3 +233,17 @@ JavaScript 编译器。
 babel.config.js, 后期方便修改   
 
 presets  可以写在webpack.config.js 中, 也可以写在.babel.config.js
+
+
+# 十二 处理 html 资源
+npm install --save-dev html-webpack-plugin
+有一个弊端, 不会引入样式
+```
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+new HtmlWebpackPlugin()
+```
+
+会原封不动地输出到dist文件中, 包括样式
+```
+template: path.resolve(__dirname, "public/index.html")
+```

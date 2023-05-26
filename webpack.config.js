@@ -1,5 +1,6 @@
 const path = require("path"); //nodejs 核心模板, 专门用来处理路径问题
 const ESLintPlugin = require('eslint-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     // 入口
@@ -77,11 +78,11 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/, //排除node_modules中的js文件
-                  loader: 'babel-loader',
+                loader: 'babel-loader',
                 //   options: {
                 //     presets: ['@babel/preset-env']
                 //   }
-              }
+            }
         ]
     },
     // 插件
@@ -90,6 +91,11 @@ module.exports = {
         new ESLintPlugin({
             // 检测哪些文件
             context: path.resolve(__dirname, "src")
+        }),
+        new HtmlWebpackPlugin({
+            // 模板: 以public/index.html创建新的html文件
+            // 新的html文件特点: 1. 结构和原来一致, 2. 自动引入打包输出的资源
+            template: path.resolve(__dirname, "public/index.html")
         })
     ],
     // 模式
