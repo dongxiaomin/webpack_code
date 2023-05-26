@@ -139,28 +139,30 @@ npm install stylus stylus-loader --save-dev
 
 
 # 六 处理 image
-注意: 重复打包不会覆盖旧的, 需要删除旧的
-图片
-小于10kb 转为base 64 字符串
-减少图片请求数量, 也就是减轻服务器压力.
-缺点: 体积变大
+过去在 Webpack4 时，我们处理图片资源通过 file-loader 和 url-loader 进行处理
 
+现在 Webpack5 已经将两个 Loader 功能内置到 Webpack 里了，我们只需要简单配置即可处理图片资源
+
+注意: 重复打包不会覆盖旧的, 需要删除旧的图片
+
+将小于10kb的图片转为 **data URI 形式（Base64 格式）**
+
+优点: 减少图片请求数量, 也就是减轻服务器压力.
+缺点: 体积会比原图大
 ```
 {
     test: /\.(png|jpe?g|gif|svg|webp)/,
     type: 'asset',
     parser: {
         dataUrlCondition: {
-        // 小于10kb的图片转base64
-        // 优点: 减少请求数量
-        // 缺点: 体积会更大
-        maxSize: 10 * 1024 // 10kb
+            maxSize: 10 * 1024 // 10kb
         }
     }
 }
 ```
 
 # 七 修改输出文件目录
+1. 修改输出图片路径
 ```
 generator: {
     // 输出图片名称
@@ -168,6 +170,8 @@ generator: {
     filename: 'static/images/[hash:10][ext][query]'
 }
 ```
+
+2. 修改输出主文件
 ```
 output: {
     ...
@@ -181,9 +185,16 @@ output: {
 ```clean: true```
 
 # 九 处理字体图标资源
-阿里巴巴矢量图标库
-https://www.iconfont.cn/
-
+前期准备: 下载 -- 阿里巴巴矢量图标库 https://www.iconfont.cn/
+* 下载 -》 解压 -》 demo_index.html -》 Font class 
+* 添加字体图标资源
+```
+src/fonts/iconfont.ttf
+src/fonts/iconfont.woff
+src/fonts/iconfont.woff2
+src/css/iconfont.css
+```
+* 配置
 ```
 {
     test: /\.(ttf|woff2?)/,
@@ -198,24 +209,67 @@ https://www.iconfont.cn/
 # 十 处理其他资源, 可直接正则追加
 ```test: /\.(ttf|woff2?|mp3|mp4|avi)/,```
 
-# 十一 处理 js 资源, 使用 eslint 对代码进行检查
-针对代码格式，我们使用 Eslint 来完成
-针对 js 兼容性处理，我们使用 Babel 来完成
 
+# 十一 处理 js 资源, 使用 eslint 对代码进行检查
+Webpack 对 js 处理是有限的，只能编译 js 中 ES 模块化语法，不能编译其他语法，导致 js 不能在 IE 等浏览器运行，所以我们希望做一些兼容性处理。
+
+其次开发中，团队对代码格式是有严格要求的，我们不能由肉眼去检测代码格式，需要使用专业的工具来检测。
+
+针对代码格式，我们使用 Eslint 来完成 (先)
+
+针对 js 兼容性处理，我们使用 Babel 来完成 (后)
+
+## 使用 eslint 对代码进行检查
 Eslint
 可组装的 JavaScript 和 JSX 检查工具。
 
-这句话意思就是：它是用来检测 js 和 jsx 语法的工具，可以配置各项功能
+它是用来检测 js 和 jsx 语法的工具，可以配置各项功能
 
 我们使用 Eslint，关键是写 Eslint 配置文件，里面写上各种 rules 规则，将来运行 Eslint 时就会以写的规则对代码进行检查
 
-facebook, react 
+* 安装
+```npm install eslint eslint-webpack-plugin --save-dev```
 
-npm install eslint eslint-webpack-plugin --save-dev
+* 配置
+创建.eslintrc.js文件
+```
+module.exports = {
+    // 继承 Eslint 规则
+    extends: ["eslint:recommended"],
+    env: {
+        node: true, // 启用node中全局变量
+        browser: true, // 启用浏览器中全局变量
+    },
+    parserOptions: {
+        ecmaVersion: 6,
+        sourceType: "module",
+    },
+    rules: {
+        "no-var": 2, // 不能使用 var 定义变量
+    },
+};
+```
+
+* 在 Webpack 中使用
+```
+const ESLintPlugin = require('eslint-webpack-plugin');
+
+```
+
+```
+plugins: [
+    // plugin的配置
+    new ESLintPlugin({
+        // 检测哪些文件
+        context: path.resolve(__dirname, "src")
+    }),
+],
+
+```
+测试: src/main.js 中的使用var会打包失败
 
 
-
-Babel
+## Babel
 JavaScript 编译器。
 
 主要用于将 ES6 语法编写的代码转换为向后兼容的 JavaScript 语法，以便能够运行在当前和旧版本的浏览器或其他环境中
@@ -229,21 +283,22 @@ JavaScript 编译器。
     //     presets: ['@babel/preset-env']
     //   }
     }
-    ```
+```
 babel.config.js, 后期方便修改   
 
-presets  可以写在webpack.config.js 中, 也可以写在.babel.config.js
-
+注意: **presets  可以写在webpack.config.js 中, 也可以写在.babel.config.js**
+测试: dist/static/js/main.js 中的sum() 箭头函数已转换
 
 # 十二 处理 html 资源
-npm install --save-dev html-webpack-plugin
+```npm install --save-dev html-webpack-plugin```
 有一个弊端, 不会引入样式
 ```
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-new HtmlWebpackPlugin()
 ```
 
 会原封不动地输出到dist文件中, 包括样式
 ```
 template: path.resolve(__dirname, "public/index.html")
 ```
+此时 dist 目录就会输出一个 dist/index.html 
+
