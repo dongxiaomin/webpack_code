@@ -1,4 +1,5 @@
 const path = require("path"); //nodejs 核心模板, 专门用来处理路径问题
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
     // 入口
@@ -66,18 +67,30 @@ module.exports = {
                 }
             },
             {
-                test: /\.(ttf|woff2?)/,
+                test: /\.(ttf|woff2?|mp3|mp4|avi)/,
                 type: 'asset/resource',
                 generator: {
                     // 输出名称
                     filename: 'static/media/[hash:10][ext][query]'
                 }
-            }
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/, //排除node_modules中的js文件
+                  loader: 'babel-loader',
+                //   options: {
+                //     presets: ['@babel/preset-env']
+                //   }
+              }
         ]
     },
     // 插件
     plugins: [
         // plugin的配置
+        new ESLintPlugin({
+            // 检测哪些文件
+            context: path.resolve(__dirname, "src")
+        })
     ],
     // 模式
     mode: "development",

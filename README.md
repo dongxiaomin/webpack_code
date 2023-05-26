@@ -22,7 +22,7 @@ https://www.bilibili.com/video/BV14T4y1z7sw/?p=3&spm_id_from=pageDriver&vd_sourc
 ## 2. 基础使用 / 测试
 Webpack 是一个静态资源打包工具。
 
-**开发模式**：仅能编译 JS 中的 ES Module(import, export) 语法, 不能编译箭头函数, es6语法等
+**开发模式**：仅能编译 JS 中的 ES Module(import, export) 模块化语法, 不能编译箭头函数, es6语法等
 
 **生产模式**：能编译 JS 中的 ES Module 语法，还能压缩 JS 代码
 
@@ -181,6 +181,9 @@ output: {
 ```clean: true```
 
 # 九 处理字体图标资源
+阿里巴巴矢量图标库
+https://www.iconfont.cn/
+
 ```
 {
     test: /\.(ttf|woff2?)/,
@@ -191,3 +194,42 @@ output: {
     }
 }
 ```
+
+# 十 处理其他资源, 可直接正则追加
+```test: /\.(ttf|woff2?|mp3|mp4|avi)/,```
+
+# 十一 处理 js 资源, 使用 eslint 对代码进行检查
+针对代码格式，我们使用 Eslint 来完成
+针对 js 兼容性处理，我们使用 Babel 来完成
+
+Eslint
+可组装的 JavaScript 和 JSX 检查工具。
+
+这句话意思就是：它是用来检测 js 和 jsx 语法的工具，可以配置各项功能
+
+我们使用 Eslint，关键是写 Eslint 配置文件，里面写上各种 rules 规则，将来运行 Eslint 时就会以写的规则对代码进行检查
+
+facebook, react 
+
+npm install eslint eslint-webpack-plugin --save-dev
+
+
+
+Babel
+JavaScript 编译器。
+
+主要用于将 ES6 语法编写的代码转换为向后兼容的 JavaScript 语法，以便能够运行在当前和旧版本的浏览器或其他环境中
+
+```
+{
+    test: /\.js$/,
+    exclude: /(node_modules)/, //排除node_modules中的js文件
+        loader: 'babel-loader',
+    //   options: {
+    //     presets: ['@babel/preset-env']
+    //   }
+    }
+    ```
+babel.config.js, 后期方便修改   
+
+presets  可以写在webpack.config.js 中, 也可以写在.babel.config.js

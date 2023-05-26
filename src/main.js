@@ -9,3 +9,6 @@ import "./css/iconfont.css";
 
 console.log(count(2, 1));
 console.log(sum(2, 1, 3, 4));
+
+// const  xx = count(2, 1);
+// console.log(xx)
