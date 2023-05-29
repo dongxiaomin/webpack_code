@@ -24,6 +24,16 @@ module.exports = {
                 use: [ // 执行顺序, 从右往左(从下到上)
                     MiniCssExtractPlugin.loader,
                     "css-loader", // 将css资源编译成commonjs的模块到js中 (css打包到js中)
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    "postcss-preset-env", // 能解决大多数样式兼容性问题
+                                ],
+                            },
+                        },
+                    },
                 ],
             },
             {
@@ -32,6 +42,16 @@ module.exports = {
                     // compiles Less to CSS
                     MiniCssExtractPlugin.loader,
                     'css-loader',
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    "postcss-preset-env", // 能解决大多数样式兼容性问题
+                                ],
+                            },
+                        },
+                    },
                     'less-loader', // 将less编译成css
                 ],
             },
@@ -40,6 +60,16 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader', // 将 CSS 转化成 CommonJS 模块
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    "postcss-preset-env", // 能解决大多数样式兼容性问题
+                                ],
+                            },
+                        },
+                    },
                     'sass-loader', // 将 Sass 编译成 CSS
                 ],
             },
@@ -48,6 +78,16 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader', // 将 CSS 转化成 CommonJS 模块
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    "postcss-preset-env", // 能解决大多数样式兼容性问题
+                                ],
+                            },
+                        },
+                    },
                     'stylus-loader', // 将 stylus 编译成 CSS
                 ],
             },
