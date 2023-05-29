@@ -104,4 +104,5 @@ module.exports = {
     },
     // 模式
     mode: "development",
+    devtool: "cheap-module-source-map",
 }
