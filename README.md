@@ -41,7 +41,7 @@ Uncaught SyntaxError: Cannot use import statement outside a module (at main.js:1
 注意: "name": "webpack_code" 名称不能为webpack,否则因同名 下面的webpack包会下载失败.
 
 2. 安装2个包: webpack webpack-cli(webpack 指令)
-npm i webpack webpack-cli -D
+```npm i webpack webpack-cli -D```
 
 3. 打包测试 (npx)
 ```npx webpack ./src/main.js --mode=development```
@@ -303,6 +303,30 @@ new HtmlWebpackPlugin({
     // 新的html文件特点: 1. 结构和原来一致, 2. 自动引入打包输出的资源
     template: path.resolve(__dirname, "public/index.html")
 })
-        ```
+```
 此时 dist 目录就会输出一个 dist/index.html 
 
+
+# 十三 开发服务器&自动化
+每次写完代码都需要手动输入指令才能编译代码，太麻烦了，我们希望一切自动化, 保存后自动编译.
+1. 下载包
+```npm i webpack-dev-server -D```
+2. 配置
+```
+// 开发服务器
+devServer: {
+    host: "localhost", // 启动服务器域名
+    port: "3000", // 启动服务器端口号
+    open: true, // 是否自动打开浏览器
+},
+```
+3. 运行指令
+```
+npx webpack serve
+```
+注意: 
+在开发服务器模式下启动, 不会输出资源.
+因为在内存中编译打包, 并不会输出到 dist 目录下.
+如果删除dist文件, 不会影响/终止编译.
+
+-------------------------------------------------------------------------------------------------------------------

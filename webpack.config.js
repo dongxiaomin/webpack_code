@@ -11,7 +11,7 @@ module.exports = {
         path: path.resolve(__dirname, "dist"), // 绝对目录
         // 入口文件打包输出文件名
         filename: 'static/js/main.js',
-        // 自动清空上次打包内容
+        // 自动清空上次打包内容 (在开始服务器模式下, 可加可不加, 因为不会操作dist)
         clean: true
     },
     // 加载器
@@ -98,6 +98,12 @@ module.exports = {
             template: path.resolve(__dirname, "public/index.html")
         })
     ],
+    // 开发服务器: 不会输出资源, 在内存中编译打包
+    devServer: {
+        host: "localhost", // 启动服务器域名
+        port: "3000", // 启动服务器端口号
+        open: true, // 是否自动打开浏览器
+    },
     // 模式
     mode: "development",
 }
