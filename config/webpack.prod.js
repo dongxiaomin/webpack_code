@@ -1,6 +1,7 @@
 const path = require("path"); //nodejs 核心模板, 专门用来处理路径问题
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     // 入口
@@ -21,7 +22,7 @@ module.exports = {
             {
                 test: /\.css$/, // 只检测css文件
                 use: [ // 执行顺序, 从右往左(从下到上)
-                    "style-loader",  // 动态创建style标签,使样式生效
+                    MiniCssExtractPlugin.loader,
                     "css-loader", // 将css资源编译成commonjs的模块到js中 (css打包到js中)
                 ],
             },
@@ -29,7 +30,7 @@ module.exports = {
                 test: /\.less$/,
                 use: [
                     // compiles Less to CSS
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                     'less-loader', // 将less编译成css
                 ],
@@ -37,7 +38,7 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/i,
                 use: [
-                    'style-loader', // 将 JS 字符串生成为 style 节点
+                    MiniCssExtractPlugin.loader,
                     'css-loader', // 将 CSS 转化成 CommonJS 模块
                     'sass-loader', // 将 Sass 编译成 CSS
                 ],
@@ -45,7 +46,7 @@ module.exports = {
             {
                 test: /\.styl$/,
                 use: [
-                    'style-loader', // 将 JS 字符串生成为 style 节点
+                    MiniCssExtractPlugin.loader,
                     'css-loader', // 将 CSS 转化成 CommonJS 模块
                     'stylus-loader', // 将 stylus 编译成 CSS
                 ],
@@ -96,6 +97,11 @@ module.exports = {
             // 模板: 以public/index.html创建新的html文件
             // 新的html文件特点: 1. 结构和原来一致, 2. 自动引入打包输出的资源
             template: path.resolve(__dirname, "../public/index.html")
+        }),
+        // 提取css成单独文件
+        new MiniCssExtractPlugin({
+            // 定义输出文件名和目录
+            filename: "static/css/main.css",
         }),
     ],
     // 开发服务器: 不会输出资源, 在内存中编译打包

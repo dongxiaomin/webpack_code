@@ -354,3 +354,32 @@ npx webpack --config ./config/webpack.prod.js
 生产环境: ```npm run build```
 
 
+# 二 Css 处理
+
+## 提取 Css 成单独文件
+Css 文件目前被打包到 js 文件中，当 js 文件加载时，会创建一个 style 标签来生成样式 
+例: ![style.png](./public/img/style.png)
+
+这样对于网站来说，会出现闪屏现象，用户体验不好
+测试方法: Netwoking throttling --> Slow 3G, 如果是 script标签引入css, 会出现闪屏
+![<style>test1.png](./public/img/<style>test1.png)
+![<style>test2.png](./public/img/<style>test2.png) 
+
+我们应该是单独的 Css 文件，通过 link 标签加载性能才好
+例: ![style_prod.png](./public/img/style_prod.png)
+
+方法:
+```
+npm install --save-dev mini-css-extract-plugin
+```
+```
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+...
+new MiniCssExtractPlugin({
+    // 定义输出文件名和目录
+    filename: "static/css/main.css",
+}),
+```
+replace ```"css-loader"``` to ```MiniCssExtractPlugin.loader,```
+
+
