@@ -430,3 +430,22 @@ display: flex;
 ]
 
 ```
+
+## Css 压缩
+1. 安装
+```npm install css-minimizer-webpack-plugin --save-dev```
+
+2. 配置
+```
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+...
+// css压缩
+new CssMinimizerPlugin(),
+```
+
+注意:
+
+默认生产模式已经开启了：html 压缩和 js 压缩
+
+不需要额外进行配置
+
