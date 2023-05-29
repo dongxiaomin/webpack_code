@@ -330,3 +330,27 @@ npx webpack serve
 如果删除dist文件, 不会影响/终止编译.
 
 -------------------------------------------------------------------------------------------------------------------
+
+
+# 一 生产模式配置
+
+```
+//说明: devServe启动 + 指定配置文件路径
+npx webpack serve --config ./config/webpack.dev.js
+npx webpack --config ./config/webpack.prod.js
+```
+
+**优化**:
+```
+"scripts": {
+    "start": "npm run dev",
+    "dev": "webpack serve --config ./config/webpack.dev.js",
+    "build": "webpack --config ./config/webpack.prod.js"
+  },
+```
+
+**总结**:
+开发环境:```npm start```或 ```npm run dev```
+生产环境: ```npm run build```
+
+
