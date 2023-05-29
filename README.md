@@ -135,7 +135,7 @@ npm install sass-loader sass --save-dev
 ### 处理stylus资源
 npm install stylus stylus-loader --save-dev
 
-页面测试![style.png](./public/img/style.png)
+页面测试![style.PNG](./public/img/style.PNG)
 
 
 # 六 处理 image
