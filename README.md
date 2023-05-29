@@ -30,7 +30,7 @@ Webpack 是一个静态资源打包工具。
 ```
 Uncaught SyntaxError: Cannot use import statement outside a module (at main.js:1:1)
 ```
- ![Uncaught SyntaxError.png](./public/img/Uncaught%20SyntaxError.png)
+ ![Uncaught SyntaxError.png](https://github.com/dongxiaomin/webpack_code/blob/master/public/img/Uncaught%20SyntaxError.png)
 
 
 # 二 基本使用
@@ -135,7 +135,7 @@ npm install sass-loader sass --save-dev
 ### 处理stylus资源
 npm install stylus stylus-loader --save-dev
 
-页面测试![style.PNG](./public/img/style.PNG)
+页面测试![style.png](https://github.com/dongxiaomin/webpack_code/blob/master/public/img/style.png)
 
 
 # 六 处理 image
@@ -358,15 +358,20 @@ npx webpack --config ./config/webpack.prod.js
 
 ## 提取 Css 成单独文件
 Css 文件目前被打包到 js 文件中，当 js 文件加载时，会创建一个 style 标签来生成样式 
-例: ![style.png](./public/img/style.png)
+
+例: ![style.png](https://github.com/dongxiaomin/webpack_code/blob/master/public/img/style.png)
 
 这样对于网站来说，会出现闪屏现象，用户体验不好
+
 测试方法: Netwoking throttling --> Slow 3G, 如果是 script标签引入css, 会出现闪屏
-![<style>test1.png](./public/img/<style>test1.png)
-![<style>test2.png](./public/img/<style>test2.png) 
+
+![<style>test1.png](https://github.com/dongxiaomin/webpack_code/blob/master/public/img/<style>test1.png)
+
+![<style>test2.png](https://github.com/dongxiaomin/webpack_code/blob/master/public/img/<style>test2.png) 
 
 我们应该是单独的 Css 文件，通过 link 标签加载性能才好
-例: ![style_prod.png](./public/img/style_prod.png)
+
+例: ![style_prod.png](https://github.com/dongxiaomin/webpack_code/blob/master/public/img/style_prod.png)
 
 方法:
 ```
