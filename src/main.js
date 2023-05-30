@@ -12,3 +12,8 @@ console.log(sum(2, 1, 3, 4));
 
 // const  xx = count(2, 1);
 // console.log(xx)
+
+// 判断是否支持HMR功能
+if (module.hot) {
+    module.hot.accept("./js/count.js")
+}

@@ -44,7 +44,6 @@ module.exports = {
 }
 ```
 
-
 生产模式：```source-map```
 * 优点：包含行/列映射
 * 缺点：打包编译速度更慢
@@ -55,3 +54,43 @@ module.exports = {
     devtool: "source-map",
 };
 ```
+
+
+# 二 提升打包构建速度 
+**HotModuleReplacement**
+## 为什么
+开发时我们修改了其中一个模块代码，Webpack 默认会将所有模块全部重新打包编译，速度很慢。
+
+所以我们需要做到修改某个模块代码，就只有这个模块代码需要重新打包编译，其他模块不变，这样打包速度就能很快。
+
+## 是什么
+HotModuleReplacement（**HMR/热模块替换**）：在程序运行中，替换、添加或删除模块，而无需重新加载整个页面。
+
+## 怎么用
+1. 基本配置: 
+```hot: true```, 值默认为true;
+
+* style-loader: css 样式经过 style-loader 处理，已经具备 HMR 功能.
+  例如修改css并保存:  ![HMR_Css.png](./public/img/HMR_Css.png)
+
+```
+module.exports = {
+  ...
+  devServer: {
+    ...
+    hot: true, // 开启HMR功能（只能用于开发环境，生产环境不需要）
+  },
+};
+```
+
+2. js配置
+* js如果没有配置, 更新时页面会刷新, 所以需要增加如下配置
+```src/main.js
+// 判断是否支持HMR功能
+if (module.hot) {
+    module.hot.accept("./js/count.js")
+}
+```
+上面这样写会很麻烦，所以实际开发我们会使用其他 loader 来解决。
+例如：[vue-loader](https://github.com/vuejs/vue-loader), [react-hot-loader](https://github.com/gaearon/react-hot-loader)。
+
