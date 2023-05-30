@@ -2,13 +2,13 @@
 
 
 资料:
-https://yk2012.github.io/sgg_webpack5/base/#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7
+https://yk2012.github.io/sgg_webpack5/senior/enhanceExperience.html#%E6%98%AF%E4%BB%80%E4%B9%88
 
 视频:
-https://www.bilibili.com/video/BV14T4y1z7sw/?p=3&spm_id_from=pageDriver&vd_source=14fedc3c63ed079cd9eb76b1b47d1f84
+https://www.bilibili.com/video/BV14T4y1z7sw/?p=34&spm_id_from=pageDriver&vd_source=14fedc3c63ed079cd9eb76b1b47d1f84
 
 
-# 一 高级优化
+# 高级优化
 我们会从以下角度来进行优化：
 
 * 提升开发体验
@@ -16,8 +16,8 @@ https://www.bilibili.com/video/BV14T4y1z7sw/?p=3&spm_id_from=pageDriver&vd_sourc
 * 减少代码体积
 * 优化代码运行性能
 
-# 提升开发体验
-SourceMap
+# 一 提升开发体验
+**SourceMap**
 ## 为什么
 开发时我们运行的代码是经过 webpack 编译后的, 所有 css 和 js 合并成了一个文件，并且多了其他代码。
 

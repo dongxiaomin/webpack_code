@@ -266,7 +266,7 @@ plugins: [
 ],
 
 ```
-测试: src/main.js 中的使用var会打包失败
+测试: src/main.js 中使用var定义变量会打包失败
 
 
 ## Babel
@@ -382,7 +382,7 @@ new MiniCssExtractPlugin({
     filename: "static/css/main.css",
 }),
 ```
-replace ```"css-loader"``` to ```MiniCssExtractPlugin.loader,```
+replace ```"style-loader"``` to ```MiniCssExtractPlugin.loader,```
 
 
 ## Css 兼容性处理
@@ -408,13 +408,16 @@ MiniCssExtractPlugin.loader,
 'sass-loader', // 将 Sass 编译成 CSS
 ```
 
-测试: package.json中添加如下配置, 再打包, 检查dist/css/main.css, 可以验证
+
+测试: 
+* package.json中添加如下配置, 再打包;
 ``` 
 "browserslist_test": [
     "ie >= 8"
 ],
 ```
 
+* 检查dist/css/main.css, 可以验证
 ```
 display: -ms-flexbox;
 display: flex;
