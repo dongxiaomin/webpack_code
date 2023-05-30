@@ -122,3 +122,37 @@ module.exports = {
     ...
 }
 ```
+
+
+## 3. Include/Exclude
+
+### 为什么
+开发时我们需要使用第三方的库或插件，所有文件都下载到 node_modules 中了。而这些文件是不需要编译可以直接使用的。
+
+所以我们在对 js 文件处理时，要排除 node_modules 下面的文件。
+
+### 是什么
+* include
+包含，只处理 xxx 文件
+
+* exclude
+排除，除了 xxx 文件以外其他文件都处理
+
+### 怎么用
+* 只针对 js (eslint, bable) 处理
+* include 与 exclude 不能同时使用
+```
+{
+    test: /\.js$/,
+    // exclude: /node_modules/, // 排除node_modules代码不编译
+    include: path.resolve(__dirname, "../src"), // 也可以用包含
+    loader: "babel-loader",
+},
+```
+```
+new ESLintPlugin({
+    // 检测哪些文件
+    context: path.resolve(__dirname, "../src"),
+    exclude: "node_modules", // 默认值
+}),
+```
