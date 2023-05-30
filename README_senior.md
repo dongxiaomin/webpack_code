@@ -57,16 +57,18 @@ module.exports = {
 
 
 # 二 提升打包构建速度 
-**HotModuleReplacement**
-## 为什么
+
+## 1. HotModuleReplacement
+
+### 为什么
 开发时我们修改了其中一个模块代码，Webpack 默认会将所有模块全部重新打包编译，速度很慢。
 
 所以我们需要做到修改某个模块代码，就只有这个模块代码需要重新打包编译，其他模块不变，这样打包速度就能很快。
 
-## 是什么
+### 是什么
 HotModuleReplacement（**HMR/热模块替换**）：在程序运行中，替换、添加或删除模块，而无需重新加载整个页面。
 
-## 怎么用
+### 怎么用
 1. 基本配置: 
 ```hot: true```, 值默认为true;
 
@@ -94,3 +96,29 @@ if (module.hot) {
 上面这样写会很麻烦，所以实际开发我们会使用其他 loader 来解决。
 例如：[vue-loader](https://github.com/vuejs/vue-loader), [react-hot-loader](https://github.com/gaearon/react-hot-loader)。
 
+
+## 2. oneOf
+
+### 为什么
+打包时每个文件都会经过所有 loader 处理，虽然因为 test 正则原因实际没有处理上，但是都要过一遍。比较慢。
+
+### 是什么
+顾名思义就是只能匹配上一个 loader, 剩下的就不匹配了。
+
+### 怎么用
+```
+module.exports = {
+    ...
+    module: {
+        rules: [
+            {
+                oneOf: [
+                    //loader
+                    ...
+                ]
+            }
+        ]
+    }
+    ...
+}
+```
