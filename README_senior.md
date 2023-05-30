@@ -69,6 +69,7 @@ module.exports = {
 HotModuleReplacement（**HMR/热模块替换**）：在程序运行中，替换、添加或删除模块，而无需重新加载整个页面。
 
 ### 怎么用
+只配置dev
 1. 基本配置: 
 ```hot: true```, 值默认为true;
 
@@ -106,6 +107,7 @@ if (module.hot) {
 顾名思义就是只能匹配上一个 loader, 剩下的就不匹配了。
 
 ### 怎么用
+配置dev, prod
 ```
 module.exports = {
     ...
@@ -139,6 +141,8 @@ module.exports = {
 排除，除了 xxx 文件以外其他文件都处理
 
 ### 怎么用
+配置dev, prod
+
 * 只针对 js (eslint, bable) 处理
 * include 与 exclude 不能同时使用
 ```
@@ -154,5 +158,44 @@ new ESLintPlugin({
     // 检测哪些文件
     context: path.resolve(__dirname, "../src"),
     exclude: "node_modules", // 默认值
+}),
+```
+
+
+## 4. Cache
+
+### 为什么
+每次打包时 js 文件都要经过 Eslint 检查 和 Babel 编译，速度比较慢。
+
+我们可以**缓存之前的 Eslint 检查 和 Babel 编译结果**，这样第二次打包时速度就会更快了。
+
+
+### 是什么
+对 Eslint 检查 和 Babel 编译结果进行缓存。
+
+
+### 怎么用
+配置dev, prod
+编译后, node_modules/.cache 可以看到cache文件
+
+```
+{
+    test: /\.js$/,
+    // exclude: /node_modules/, // 排除node_modules代码不编译
+    include: path.resolve(__dirname, "../src"), // 也可以用包含
+    loader: "babel-loader",
+    options: {
+        cacheDirectory: true, // 开启babel编译缓存
+        cacheCompression: false, // 缓存文件不要压缩
+    },
+},
+```
+```
+new ESLintWebpackPlugin({
+    // 指定检查文件的根目录
+    context: path.resolve(__dirname, "../src"),
+    exclude: "node_modules", // 默认值
+    cache: true, // 开启缓存
+    cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslintcache"), // 缓存目录
 }),
 ```
