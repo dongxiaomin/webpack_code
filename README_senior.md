@@ -199,3 +199,97 @@ new ESLintWebpackPlugin({
     cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslintcache"), // 缓存目录
 }),
 ```
+
+
+## 5. Thread
+
+### 为什么
+当项目越来越庞大时，打包速度越来越慢，甚至于需要一个下午才能打包出来代码。这个速度是比较慢的。
+
+我们想要继续提升打包速度，其实就是要提升 js 的打包速度，因为其他文件都比较少。
+
+而对 js 文件处理主要就是 eslint 、babel、Terser 三个工具，所以我们要提升它们的运行速度。
+
+我们可以开启多进程同时处理 js 文件，这样速度就比之前的单进程打包更快了。
+
+**Terser**: webpack 生产模式下, 内置有terser插件, 从而压缩js代码. 
+
+不需要下载, 可以直接引入使用 ```const TerserWebpackPlugin = require('terser-webpack-plugin');```.
+
+
+### 是什么
+多进程打包：开启电脑的多个进程同时干一件事，速度更快。
+即同时做eslint, 同时做babel, 同时做terser.
+俗语: 一人做一件事, 优化为多人做一件事.
+
+**需要注意：请仅在特别耗时的操作中使用，因为每个进程启动就有大约为 600ms 左右开销。**
+
+### 怎么用
+配置dev, prod
+我们启动进程的数量就是我们 CPU 的核数。
+
+1. 如何获取 CPU 的核数，因为每个电脑都不一样。
+```
+// nodejs核心模块，直接使用
+const os = require("os");
+// cpu核数
+const threads = os.cpus().length;
+```
+
+2. 下载包
+```
+npm i thread-loader -D
+```
+
+3. 使用
+babel:
+```
+{
+    test: /\.js$/,
+    // exclude: /node_modules/, // 排除node_modules代码不编译
+    include: path.resolve(__dirname, "../src"), // 也可以用包含
+    use: [
+        {
+            loader: "thread-loader", // 开启多进程
+            options: {
+                workers: threads, // 数量
+            },
+        },
+        {
+            loader: "babel-loader",
+            options: {
+                cacheDirectory: true, // 开启babel编译缓存
+            },
+        },
+    ],
+},
+```
+
+eslint:
+```
+new ESLintPlugin({
+    // 检测哪些文件
+    context: path.resolve(__dirname, "../src"),
+    exclude: "node_modules", // 默认值
+    cache: true,
+    cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslintcache"),
+    threads, // 开启多进程和设置进程数量
+}),
+```
+
+terser:
+``` 
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+...
+optimization: {
+    minimize: true,
+    minimizer: [
+      // css压缩也可以写到optimization.minimizer里面，效果一样的
+      new CssMinimizerPlugin(),
+      // 当生产模式会默认开启TerserPlugin，但是我们需要进行其他配置，就要重新写了
+      new TerserPlugin({
+        parallel: threads // 开启多进程
+      })
+    ],
+  },
+```

@@ -1,6 +1,9 @@
+const os = require("os");
 const path = require("path"); //nodejs 核心模板, 专门用来处理路径问题
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const threads = os.cpus().length;
 
 module.exports = {
     // 入口
@@ -79,11 +82,21 @@ module.exports = {
                         test: /\.js$/,
                         // exclude: /node_modules/, //排除node_modules中的js文件
                         include: path.resolve(__dirname, "../src"),
-                        loader: 'babel-loader',
-                        options: {
-                            cacheDirectory: true, // 开启babel编译缓存
-                            cacheCompression: false, // 缓存文件不要压缩, 主要是省时
-                        },
+                        use: [
+                            {
+                                loader: 'thread-loader', // 开启多进程
+                                options: {
+                                    works: threads, //进程数量
+                                }
+                            },
+                            {
+                                loader: 'babel-loader',
+                                options: {
+                                    cacheDirectory: true, // 开启babel编译缓存
+                                    cacheCompression: false, // 缓存文件不要压缩, 主要是省时
+                                },
+                            }
+                        ]
                     }
                 ]
             }
@@ -97,7 +110,8 @@ module.exports = {
             context: path.resolve(__dirname, "../src"),
             exclude: "node_modules", // 默认值
             cache: true,
-            cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslintcache")
+            cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslintcache"),
+            threads,// 开启多进程和设置进程数量
         }),
         new HtmlWebpackPlugin({
             // 模板: 以public/index.html创建新的html文件
