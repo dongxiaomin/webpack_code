@@ -324,3 +324,34 @@ optimization: {
 
 ### 怎么用
 Webpack 已经默认开启了这个功能，无需其他配置。
+
+
+## 2. Babel
+
+### 为什么
+Babel 为编译的每个文件都插入了辅助代码，使代码体积过大！
+
+Babel 对一些公共方法使用了非常小的辅助代码，比如 _extend。默认情况下会被添加到每一个需要它的文件中。
+
+你可以将这些辅助代码作为一个独立模块，来避免重复引入。
+
+### 是什么
+`@babel/plugin-transform-runtime`: 禁用了 Babel 自动对每个文件的 runtime 注入
+
+而是引入 `@babel/plugin-transform-runtime` 并且使所有辅助代码从这里引用。
+
+
+### 怎么用
+1. 下载包
+```npm i @babel/plugin-transform-runtime -D```
+2. 
+```
+{
+    loader: 'babel-loader',
+    options: {
+        cacheDirectory: true, // 开启babel编译缓存
+        cacheCompression: false, // 缓存文件不要压缩, 主要是省时
+        plugins: ["@babel/plugin-transform-runtime"], // 减少代码体积
+    },
+}
+```

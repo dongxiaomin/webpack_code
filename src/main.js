@@ -6,7 +6,7 @@ import "./sass/index.sass";
 import "./sass/index.scss";
 import "./stylus/index.styl";
 import "./css/iconfont.css";
-import { test } from "./js/test";
+// import {  } from "./js/test";
 
 console.log(count(2, 1));
 console.log(sum(2, 1, 3, 4));
