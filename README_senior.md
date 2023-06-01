@@ -355,3 +355,87 @@ Babel 对一些公共方法使用了非常小的辅助代码，比如 _extend。
     },
 }
 ```
+
+
+## 3. Image Minimizer
+
+### 为什么
+开发如果项目中引用了较多图片，那么图片体积会比较大，将来请求速度比较慢。
+
+我们可以对图片进行压缩，减少图片体积。
+
+**注意：如果项目中图片都是在线链接，那么就不需要了。本地项目静态图片才需要进行压缩。**
+
+
+### 是什么
+`image-minimizer-webpack-plugin`: 用来压缩图片的插件
+
+
+
+### 怎么用
+1. 下载包
+```npm i image-minimizer-webpack-plugin imagemin -D```
+无损压缩: ```npm install imagemin-gifsicle imagemin-jpegtran imagemin-optipng imagemin-svgo -D```
+有损压缩: ```npm install imagemin-gifsicle imagemin-jpegtran imagemin-optipng imagemin-svgo -D```
+
+2. 
+```
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+...
+// 压缩图片
+new ImageMinimizerPlugin({
+    minimizer: {
+        implementation: ImageMinimizerPlugin.imageminGenerate,
+        options: {
+            plugins: [
+                ["gifsicle", { interlaced: true }],
+                ["jpegtran", { progressive: true }],
+                ["optipng", { optimizationLevel: 5 }],
+                [
+                    "svgo",
+                    {
+                        plugins: [
+                            "preset-default",
+                            "prefixIds",
+                            {
+                                name: "sortAttrs",
+                                params: {
+                                    xmlnsOrder: "alphabetical",
+                                },
+                            },
+                        ],
+                    },
+                ],
+            ],
+        },
+    },
+}),
+```
+
+### 问题
+Q1: 安装npm install imagemin-gifsicle imagemin-jpegtran imagemin-optipng imagemin-svgo -D报错:
+```
+npm ERR! code 1
+npm ERR! path /Users/dxm/webpack_code/node_modules/gifsicle
+npm ERR! command failed
+npm ERR! command sh -c node lib/install.js
+npm ERR! compiling from source
+npm ERR! connect ECONNREFUSED :::443
+npm ERR! gifsicle pre-build test failed
+npm ERR! Error: Command failed: /bin/sh -c autoreconf -ivf
+npm ERR! /bin/sh: autoreconf: command not found
+```
+
+A1:
+使用cnpm安装
+```
+sudo npm i -g cnpm
+cnpm install imagemin-gifsicle imagemin-jpegtran imagemin-svgo -D
+```
+
+Q2: cnpm下载imagemin-optipng 依然失败 TODO
+```
+[npminstall:runscript:error] imagemin-optipng@8.0.0 › optipng-bin@^7.0.0 run postinstall node lib/install.js error: Error: Command failed with exit code 1: node lib/install.js
+```
+
+A2: 参考 https://www.bilibili.com/video/BV14T4y1z7sw/?p=41&spm_id_from=pageDriver&vd_source=14fedc3c63ed079cd9eb76b1b47d1f84

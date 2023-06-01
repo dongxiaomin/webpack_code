@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require('terser-webpack-plugin');
+// const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 const threads = os.cpus().length; //cpu核数
 
@@ -147,7 +148,35 @@ module.exports = {
             // js压缩
             new TerserWebpackPlugin({
                 parallel: threads // 开启多进程和设置进程数量
-            })
+            }),
+            // 图片压缩
+            // new ImageMinimizerPlugin({
+            //     minimizer: {
+            //         implementation: ImageMinimizerPlugin.imageminGenerate,
+            //         options: {
+            //             plugins: [
+            //                 ["gifsicle", { interlaced: true }],
+            //                 ["jpegtran", { progressive: true }],
+            //                 ["optipng", { optimizationLevel: 5 }],
+            //                 [
+            //                     "svgo",
+            //                     {
+            //                         plugins: [
+            //                             "preset-default",
+            //                             "prefixIds",
+            //                             {
+            //                                 name: "sortAttrs",
+            //                                 params: {
+            //                                     xmlnsOrder: "alphabetical",
+            //                                 },
+            //                             },
+            //                         ],
+            //                     },
+            //                 ],
+            //             ],
+            //         },
+            //     },
+            // }),
         ]
     },
     // 模式
