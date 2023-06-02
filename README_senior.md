@@ -618,7 +618,11 @@ new MiniCssExtractPlugin({
     chunkFilename: "static/css/[name].chunk.css",
 }),
 ```
-
+TODO: npm start 有时会报下面的错
+```
+ERROR in [eslint] 
+20:5  error  Parsing error: 'import' and 'export' may only appear at the top level
+```
 
 ## 2. Preload / Prefetch
 
@@ -681,4 +685,44 @@ new PreloadWebpackPlugin({
 测试:dist/index.html
 ```
 <link href="static/js/test.chunk.js" rel="prefetch">
+```
+
+
+
+## 3. Network Cache
+
+### 为什么
+将来开发时我们对静态资源会使用缓存来优化，这样浏览器第二次请求资源就能读取缓存了，速度很快。
+
+但是这样的话就会有一个问题, 因为前后输出的文件名是一样的，都叫 main.js，一旦将来发布新版本，因为文件名没有变化导致浏览器会直接读取缓存，不会加载新资源，项目也就没法更新了。
+
+所以我们从文件名入手，确保更新前后文件名不一样，这样就可以做缓存了。
+
+
+### 是什么
+它们都会生成一个唯一的 hash 值。
+
+* fullhash（webpack4 是 hash）
+每次修改任何一个文件，所有文件名的 hash 值都将改变。所以一旦修改了任何一个文件，整个项目的文件缓存都将失效。
+
+* chunkhash
+根据不同的入口文件(Entry)进行依赖文件解析、构建对应的 chunk，生成对应的哈希值。我们 js 和 css 是同一个引入，会共享一个 hash 值。
+
+* contenthash
+根据文件内容生成 hash 值，只有文件内容变化了，hash 值才会变化。所有文件 hash 值是独享且不同的。
+
+
+### 怎么用
+```
+// [contenthash:8]使用contenthash，取8位长度
+filename: "static/js/[name].[contenthash:8].js", // 入口文件打包输出资源命名方式
+chunkFilename: "static/js/[name].[contenthash:8].chunk.js", // 动态导入输出资源命名方式
+```
+```
+optimization: {
+    ...
+    runtimeChunk: {
+        name: entrypoint => `runtime-${entrypoint.name}.js`,
+    }
+},
 ```

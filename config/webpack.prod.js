@@ -35,10 +35,11 @@ module.exports = {
     output: {
         // __dirname nodejs的变量, 代表当前文件夹目录
         path: path.resolve(__dirname, "../dist"), // 绝对目录, 生产模式需要输出
+        // [contenthash:8]使用contenthash，取8位长度
         // 入口文件打包输出文件名
-        filename: 'static/js/[name].js',
+        filename: 'static/js/[name].[contenthash:8].js',
         // 动态导入输出资源命名方式
-        chunkFilename: 'static/js/[name].chunk.js',
+        chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
         // 图片、字体等资源命名方式（注意用hash）
         assetModuleFilename: 'static/media/[hash:10][ext][query]',
         // 自动清空上次打包内容 (在开始服务器模式下, 可加可不加, 因为不会操作dist)
@@ -135,8 +136,8 @@ module.exports = {
         // 提取css成单独文件
         new MiniCssExtractPlugin({
             // 定义输出文件名和目录
-            filename: "static/css/[name].css",
-            chunkFilename: "static/css/[name].chunk.css",
+            filename: "static/css/[name].[contenthash:8].css",
+            chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
         }),
         new PreloadWebpackPlugin({
             // rel: "preload", // preload兼容性更好
@@ -191,6 +192,9 @@ module.exports = {
         // 代码分割配置
         splitChunks: {
             chunks: "all",
+        },
+        runtimeChunk: {
+            name: entrypoint => `runtime-${entrypoint.name}.js`,
         }
     },
     // 模式
