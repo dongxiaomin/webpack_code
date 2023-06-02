@@ -35,9 +35,11 @@ module.exports = {
         // __dirname nodejs的变量, 代表当前文件夹目录
         path: path.resolve(__dirname, "../dist"), // 绝对目录, 生产模式需要输出
         // 入口文件打包输出文件名
-        filename: 'static/js/main.js',
+        filename: 'static/js/[name].js',
         // 动态导入输出资源命名方式
-        chunkFilename: 'static/js/[name].js',
+        chunkFilename: 'static/js/[name].chunk.js',
+        // 图片、字体等资源命名方式（注意用hash）
+        assetModuleFilename: 'static/media/[hash:10][ext][query]',
         // 自动清空上次打包内容 (在开始服务器模式下, 可加可不加, 因为不会操作dist)
         clean: true
     },
@@ -74,19 +76,19 @@ module.exports = {
                                 maxSize: 10 * 1024 // 10kb
                             }
                         },
-                        generator: {
-                            // 输出图片名称
-                            // [hash:10] hash值取前10位
-                            filename: 'static/images/[hash:10][ext][query]'
-                        }
+                        // generator: {
+                        //     // 输出图片名称
+                        //     // [hash:10] hash值取前10位
+                        //     filename: 'static/images/[hash:10][ext][query]'
+                        // }
                     },
                     {
                         test: /\.(ttf|woff2?|mp3|mp4|avi)/,
                         type: 'asset/resource',
-                        generator: {
-                            // 输出名称
-                            filename: 'static/media/[hash:10][ext][query]'
-                        }
+                        // generator: {
+                        //     // 输出名称
+                        //     filename: 'static/media/[hash:10][ext][query]'
+                        // }
                     },
                     {
                         test: /\.js$/,
@@ -132,7 +134,8 @@ module.exports = {
         // 提取css成单独文件
         new MiniCssExtractPlugin({
             // 定义输出文件名和目录
-            filename: "static/css/main.css",
+            filename: "static/css/[name].css",
+            chunkFilename: "static/css/[name].chunk.css",
         }),
 
     ],

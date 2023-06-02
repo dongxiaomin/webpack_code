@@ -580,8 +580,8 @@ plugins: ["import"], // 解决动态导入import语法报错问题 --> 实际使
 ...
 ```
 
-6. 给动态导入文件取名称
-动态导入输出资源重命名:
+6.
+* 动态导入输出资源重命名:
 dist/static/js/test.js
 dist/static/js/test.js.map
 ```
@@ -597,4 +597,21 @@ output: {
     // 动态导入输出资源命名方式
     chunkFilename: 'static/js/[name].js',
 },
+```
+
+*  给其他资源重命名
+```
+// 入口文件打包输出文件名
+filename: 'static/js/[name].js',
+// 动态导入输出资源命名方式
+chunkFilename: 'static/js/[name].chunk.js',
+// 图片、字体等资源命名方式（注意用hash）
+assetModuleFilename: 'static/media/[hash:10][ext][query]',
+```
+```
+new MiniCssExtractPlugin({
+    // 定义输出文件名和目录
+    filename: "static/css/[name].css",
+    chunkFilename: "static/css/[name].chunk.css",
+}),
 ```
