@@ -17,7 +17,7 @@ if (module.hot) {
 }
 
 document.getElementById("btn").onclick = function () {
-    import('./js/test').then(({ test }) => {
+    import(/* webpackChunkName: "test" */'./js/test').then(({ test }) => {
         console.log(test(2, 1))
     })
     // import('./js/count.js').then((res) => {

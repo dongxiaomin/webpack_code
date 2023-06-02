@@ -36,6 +36,8 @@ module.exports = {
         path: path.resolve(__dirname, "../dist"), // 绝对目录, 生产模式需要输出
         // 入口文件打包输出文件名
         filename: 'static/js/main.js',
+        // 动态导入输出资源命名方式
+        chunkFilename: 'static/js/[name].js',
         // 自动清空上次打包内容 (在开始服务器模式下, 可加可不加, 因为不会操作dist)
         clean: true
     },

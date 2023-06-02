@@ -581,3 +581,20 @@ plugins: ["import"], // 解决动态导入import语法报错问题 --> 实际使
 ```
 
 6. 给动态导入文件取名称
+动态导入输出资源重命名:
+dist/static/js/test.js
+dist/static/js/test.js.map
+```
+import(/* webpackChunkName: "test" */'./js/test').then(({ test }) => {
+    console.log(test(2, 1))
+})
+```
+```
+output: {
+    ...
+    // 入口文件打包输出文件名
+    filename: 'static/js/main.js',
+    // 动态导入输出资源命名方式
+    chunkFilename: 'static/js/[name].js',
+},
+```
