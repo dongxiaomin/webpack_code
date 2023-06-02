@@ -177,7 +177,11 @@ module.exports = {
             //         },
             //     },
             // }),
-        ]
+        ],
+        // 代码分割配置
+        splitChunks: {
+            chunks: "all",
+        }
     },
     // 模式
     mode: "production",

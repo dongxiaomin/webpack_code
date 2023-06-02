@@ -11,11 +11,27 @@ import "./css/iconfont.css";
 console.log(count(2, 1));
 console.log(sum(2, 1, 3, 4));
 
-// const  xx = count(2, 1);
-// console.log(xx)
-// console.log(test(2,6))
-
 // 判断是否支持HMR功能
 if (module.hot) {
     module.hot.accept("./js/count.js")
 }
+
+document.getElementById("btn").onclick = function () {
+    import('./js/test').then(({ test }) => {
+        console.log(test(2, 1))
+    })
+    // import('./js/count.js').then((res) => {
+    //     console.log(res.default(2, 1));
+    // })
+
+    // import('./js/count.js')
+    //     .then((res) => {
+    //         // console.log("模块加载成功",count(2, 1));
+    //         console.log( "模块加载成功",res);
+    //         console.log( "模块加载成功",res.default(2, 1));
+    //     })
+    //     .catch(( error) => {
+    //         console.log("模块加载失败", error);
+    //     });
+
+};
