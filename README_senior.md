@@ -462,6 +462,7 @@ A2: 参考 https://www.bilibili.com/video/BV14T4y1z7sw/?p=41&spm_id_from=pageDri
 
 1. 多入口
 配置了几个入口，至少输出几个 js 文件。
+
 demo1: 
 ```
 entry: {
@@ -533,6 +534,7 @@ optimization: {
 
 3. 按需加载，动态导入
 一旦通过 import 动态导入语法导入模块，模块就被代码分割，同时也能按需加载了。
+
 demo3: 
 ```
 document.getElementById("btn").onclick = function () {
@@ -546,6 +548,7 @@ document.getElementById("btn").onclick = function () {
 
 4. 单入口
 开发时我们可能是单页面应用（SPA），只有一个入口（单入口）。那么我们需要这样配置：
+
 demo4: 
 ```
 entry: './src/main.js',
@@ -614,4 +617,68 @@ new MiniCssExtractPlugin({
     filename: "static/css/[name].css",
     chunkFilename: "static/css/[name].chunk.css",
 }),
+```
+
+
+## 2. Preload / Prefetch
+
+### 为什么
+我们前面已经做了代码分割，同时会使用 import 动态导入语法来进行代码按需加载（我们也叫懒加载，比如路由懒加载就是这样实现的）。
+
+但是加载速度还不够好，比如：是用户点击按钮时才加载这个资源的，如果资源体积很大，那么用户会感觉到明显卡顿效果。
+
+我们想在浏览器空闲时间，加载后续需要使用的资源。我们就需要用上 Preload 或 Prefetch 技术。
+
+
+### 是什么
+`Preload`：告诉浏览器立即加载资源。
+
+`Prefetch`：告诉浏览器在空闲时才开始加载资源。
+
+##### 它们共同点：
+* 都只会加载资源，并不执行。
+* 都有缓存。
+
+
+##### 它们区别：
+`Preload`加载优先级高，`Prefetch`加载优先级低。
+`Preload`只能加载当前页面需要使用的资源，`Prefetch`可以加载当前页面资源，也可以加载下一个页面需要使用的资源。
+
+##### 总结：
+* 当前页面优先级高的资源用 Preload 加载。
+* 下一个页面需要使用的资源用 Prefetch 加载。
+
+##### 它们的问题：兼容性较差。
+我们可以去 https://caniuse.com/?search=preload 网站查询 API 的兼容性问题。
+Preload 相对于 Prefetch 兼容性好一点。
+
+
+### 怎么用
+1. 下载包
+```npm i @vue/preload-webpack-plugin -D```
+
+2. preload 配置
+```
+const PreloadWebpackPlugin = require("@vue/preload-webpack-plugin");
+new PreloadWebpackPlugin({
+    rel: "preload", // preload兼容性更好
+    as: "script",
+}),
+```
+
+测试:dist/index.html
+```
+ <link href="static/js/test.chunk.js" rel="preload" as="script">
+```
+
+3. prefetch 配置
+```
+new PreloadWebpackPlugin({
+    rel: 'prefetch' // prefetch兼容性更差
+}),
+```
+
+测试:dist/index.html
+```
+<link href="static/js/test.chunk.js" rel="prefetch">
 ```
