@@ -726,3 +726,61 @@ optimization: {
     }
 },
 ```
+
+
+## 4. Core-js
+
+### 为什么
+过去我们使用 babel 对 js 代码进行了兼容性处理，其中使用@babel/preset-env 智能预设来处理兼容性问题。
+
+它能将 ES6 的一些语法进行编译转换，比如箭头函数、点点点运算符等。但是如果是 async 函数、promise 对象、数组的一些方法（includes）等，它没办法处理。
+
+所以此时我们 js 代码仍然存在兼容性问题，一旦遇到低版本浏览器会直接报错。所以我们想要将 js 兼容性问题彻底解决
+
+
+### 是什么
+`core-js` 是专门用来做 ES6 以及以上 API 的 `polyfill`。
+
+`polyfill`翻译过来叫做垫片/补丁。就是用社区上提供的一段代码，让我们在不兼容某些新特性的浏览器上，使用该新特性。
+
+
+### 怎么用
+安装:
+```
+npm i core-js
+```
+
+* 手动全部引入
+
+这样引入会将所有兼容性代码全部引入，体积太大了。我们只想引入 promise 的 polyfill。
+
+```
+// import 'core-js'; // 完整引入
+```
+
+* 手动按需引入
+
+只引入打包 promise 的 polyfill，打包体积更小。但是将来如果还想使用其他语法，我需要手动引入库很麻烦。
+
+```
+// import 'core-js/es/promise'; // 按需加载(手动引入)
+```
+
+* 自动按需引入
+此时就会自动根据我们代码中使用的语法，来按需加载相应的 polyfill 了。
+
+babel.config.js 配置
+
+```
+module.exports = {
+    // 智能预设, 能够编译es6语法
+    presets: [
+        ['@babel/preset-env', {
+            useBuiltIns: 'usage', // 按需加载,自动引入
+            corejs: 3
+        }]
+    ]
+}
+```
+
+官网: https://www.babeljs.cn/docs/babel-preset-env#corejs

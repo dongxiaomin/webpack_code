@@ -1,3 +1,5 @@
+// import 'core-js'; // 完整引入
+// import 'core-js/es/promise'; // 按需加载(手动引入)
 import count from "./js/count";
 import sum from "./js/sum";
 import "./css/index.css";
@@ -35,3 +37,12 @@ document.getElementById("btn").onclick = function () {
     //     });
 
 };
+
+new Promise((resolve) => {
+    setTimeout(() => {
+        resolve();
+    }, 1000)
+})
+
+const arr = [1, 2, 3, 4];
+console.log(arr.includes(1));
