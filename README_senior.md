@@ -573,15 +573,15 @@ document.getElementById("btn").onclick = function () {
 };
 ```
 eslint 配置:
-* ```npm i eslint-plugin-import -D```
-* ```.eslintrc.js
+```npm i eslint-plugin-import -D```
+```.eslintrc.js
 ...
 plugins: ["import"], // 解决动态导入import语法报错问题 --> 实际使用eslint-plugin-import的规则解决的
 ...
 ```
 
 6.
-* 动态导入输出资源重命名:
+6.1 动态导入输出资源重命名:
 dist/static/js/test.js
 dist/static/js/test.js.map
 ```
@@ -599,7 +599,7 @@ output: {
 },
 ```
 
-*  给其他资源重命名
+6.2 给其他资源重命名
 ```
 // 入口文件打包输出文件名
 filename: 'static/js/[name].js',
