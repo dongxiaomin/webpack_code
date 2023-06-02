@@ -784,3 +784,68 @@ module.exports = {
 ```
 
 官网: https://www.babeljs.cn/docs/babel-preset-env#corejs
+
+
+
+## 6. PWA
+
+### 为什么
+开发 Web App 项目，项目一旦处于网络离线情况，就没法访问了。
+
+我们希望给项目提供离线体验。
+
+
+### 是什么
+渐进式网络应用程序(progressive web application - PWA)：是一种可以提供类似于 native app(原生应用程序) 体验的 Web App 的技术。
+
+其中最重要的是，在 离线(offline) 时应用程序能够继续运行功能。
+
+内部通过 Service Workers 技术实现的。
+
+### 怎么用
+参考文档: https://webpack.docschina.org/guides/progressive-web-application/#adding-workbox
+
+* 安装
+```npm install workbox-webpack-plugin --save-dev```
+
+* 配置
+```
+const WorkboxPlugin = require('workbox-webpack-plugin');
+
+new WorkboxPlugin.GenerateSW({
+    // 这些选项帮助快速启用 ServiceWorkers
+    // 不允许遗留任何“旧的” ServiceWorkers
+    clientsClaim: true,
+    skipWaiting: true,
+}),
+```
+
+main.js
+```
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js').then(registration => {
+            console.log('SW registered: ', registration);
+        }).catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+        });
+    });
+}
+```
+
+此时如果直接通过 VSCode 访问打包后页面，在浏览器控制台会发现 SW registration failed。
+
+因为我们打开的访问路径是：`http://127.0.0.1:5500/dist/index.html`。此时页面会去请求 service-worker.js 文件，请求路径是：`http://127.0.0.1:5500/service-worker.js`，这样找不到会 404。
+
+实际 service-worker.js 文件路径是：`http://127.0.0.1:5500/dist/service-worker.js`。
+
+* 解决路径问题
+下载包: serve 也是用来启动开发服务器来部署代码查看效果的。
+
+```npm i serve -g```
+
+运行指令: ```serve dist```
+启动: ```- Local:    http://localhost:62762```
+此时通过 serve 启动的服务器我们 service-worker 就能注册成功了。
+
+例: ![PWA_Service_ Workers.png](./public/img/PWA_Service_ Workers.png)
