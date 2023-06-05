@@ -7,6 +7,9 @@ https://yk2012.github.io/sgg_webpack5/senior/enhanceExperience.html#%E6%98%AF%E4
 视频:
 https://www.bilibili.com/video/BV14T4y1z7sw/?p=34&spm_id_from=pageDriver&vd_source=14fedc3c63ed079cd9eb76b1b47d1f84
 
+相关代码: 
+https://github.com/dongxiaomin/webpack_demo/tree/main
+
 
 # 高级优化
 我们会从以下角度来进行优化：
