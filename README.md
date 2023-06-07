@@ -7,6 +7,12 @@ https://yk2012.github.io/sgg_webpack5/base/#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80
 视频:
 https://www.bilibili.com/video/BV14T4y1z7sw/?p=3&spm_id_from=pageDriver&vd_source=14fedc3c63ed079cd9eb76b1b47d1f84
 
+相关代码: 
+https://github.com/dongxiaomin/webpack_demo/tree/main
+
+React 配置:
+https://github.com/dongxiaomin/Webpack-React-Cli
+
 
 # 一 基础知识
 ## 1. 为什么需要打包工具？
