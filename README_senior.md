@@ -10,6 +10,8 @@ https://www.bilibili.com/video/BV14T4y1z7sw/?p=34&spm_id_from=pageDriver&vd_sour
 相关代码: 
 https://github.com/dongxiaomin/webpack_demo/tree/main
 
+React 配置:
+https://github.com/dongxiaomin/Webpack-React-Cli
 
 # 高级优化
 我们会从以下角度来进行优化：
